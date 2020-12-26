@@ -46,6 +46,20 @@
 					0 0 0 4px white;
 }
 
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
 .btn{
   font: normal 20px/1 Oswald, sans-serif;
   color: #ffffff;

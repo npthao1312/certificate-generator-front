@@ -16,7 +16,10 @@ export default class HomePage extends Component {
               </form>
               <div className="divider div-transparent div-dot"></div>
               <div className="d-flex justify-content-center">
-                <button className="btn" type="button">Upload a CSV file</button>
+                <div class="upload-btn-wrapper">
+                  <button className="btn">Upload a CSV file</button>
+                  <input type="file" name="myfile" />
+                </div>
               </div>
               <h5 className="text-center my-3"> Don't know how to generate form? <a className="link-instructions" href="#">See our instruction</a></h5>
             </div>
