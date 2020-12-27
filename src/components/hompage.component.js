@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import $ from 'jquery';
+import Uploady from "@rpldy/uploady";
+import UploadDropZone from "@rpldy/upload-drop-zone";
 
 export default class HomePage extends Component {
   render() {
@@ -29,8 +32,10 @@ export default class HomePage extends Component {
               <div className="box-fileupload">
                 <input type="file" id="fileId" className="file-upload-input" name="files" multiple=""/>
                 <label for="fileId" className="file-upload-btn"></label>
-                <p className="box-fileupload__lable">Upload a certificate template</p>
+                <p className="box-fileupload__label">Upload a certificate template</p>
               </div>
+              <div class="error-wrapper"></div>
+              <div class="image-preview"></div>
             </div>
           </div>
           <div className="d-flex justify-content-end">
