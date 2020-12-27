@@ -142,29 +142,8 @@ label.file-upload-btn {
     color: #1471ad;
 }
 .image-preview {
-    width: 90%;
-    height: auto;
-    display: flex;
-    flex-flow: wrap;
-    justify-content: center;
-    align-items: center;
-}
-.image-preview__image {
-    min-width: 129px;
-    min-height: 130px;
-    border: 2px solid #5c8ac3;
-    border-radius: 5px;
-    overflow: hidden;
-    background-size: cover;
-    background-repeat: no-repeat;
-    margin: 10px;
-    position: relative;
-    -webkit-box-shadow: 0 13px 6px -8px rgba(0, 0, 0, 0.3),
-    0 0 4px 0 rgba(0, 0, 0, 0.3);
-    box-shadow: 0 13px 6px -8px rgba(0, 0, 0, 0.3),
-    0 0 4px 0 rgba(0, 0, 0, 0.3);
-    border-radius: 5px;
-
+    display: block;
+    width: 100%;
 }
 .image-preview__delete-btn {
     width: 25px;
@@ -178,7 +157,7 @@ label.file-upload-btn {
     align-items: center;
     position: absolute;
     top: 5px;
-    left: 5px;
+    left: 15px;
     cursor: pointer;
     z-index: 2;
 }
@@ -196,82 +175,4 @@ label.file-upload-btn {
 }
 .image-preview__delete-btn::before {
     transform: rotate(-40deg);
-}
-.image-preview__hover {
-    background: #0000008f;
-    color: #fff;
-    display: inline-flex;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 1;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: all .4s;
-    left: 0;
-    right: 0;
-    top: 0;
-    box-sizing: border-box;
-    text-align: center;
-}
-.image-preview__hover p{
-    font-size: 13px;
-    width: 100%;
-    padding: 10px;
-    word-wrap: break-word;
-}
-.image-preview__hover:hover,
-.image-preview__close-btn:hover {
-    opacity: 1;
-}
-.file-upload-wrapper-title {
-    width: 92%;
-    min-height: 50px;
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-flow: column;
-}
-.file-upload-wrapper-title h4 {
-    display: inline-block;
-    font-size: 20px;
-    padding: 10px 0px 6px 0;
-    font-weight: 200;
-}
-.file-upload-wrapper-title hr {
-    width: 21%;
-    display: inline-block;
-    margin: 6px 0;
-}
-.file-upload-wrapper-title__btn {
-    background-color: #4099ff;
-    border-color: #4099ff;
-    border: none;
-    padding: 12px 20px;
-    color: #fff;
-    cursor: pointer;
-    -webkit-transition: all ease-in 0.3s;
-    transition: all ease-in 0.3s;
-    border-radius: 2px;
-}
-.box-fileupload__label {
-    font-size: 20px;
-    margin: 10px 0;
-    color: #1471ad;
-}
-.error-wrapper {
-    margin: 10px;
-    width: 90%;
-}
-
-.error-format {
-    background: #ff00003b;
-    padding: 15px 10px;
-    border-radius: 5px;
-    border: 2px solid #f6343b;
-    color: #b00707;
-    margin: 10px;
 }

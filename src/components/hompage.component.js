@@ -50,16 +50,12 @@ export default class HomePage extends Component {
               <div class="box-fileupload">
                   <input onChange={this.onChange} type="file" id="fileId" class="file-upload-input" name="files" multiple/>
                   <label for="fileId" class="file-upload-btn"></label>
-                  <p class="box-fileupload__lable">Drop files here to upload</p>
+                  <p class="box-fileupload__lable">Upload a certificate template</p>
               </div>
               {this.state.file && (
-                <div style={{ textAlign: "center" }}>
-                  <button className="btn" onClick={this.resetFile}>Remove File</button>
-                </div>
+                <span className="image-preview__delete-btn" onClick={this.resetFile}></span>
               )}
-              <img style={{ width: "100%" }} src={this.state.file} />
-              <div class="error-wrapper"></div>
-              <div class="image-preview"></div>
+              <img className="image-preview" src={this.state.file} />
             </div>
           </div>
           <div className="d-flex justify-content-end">
