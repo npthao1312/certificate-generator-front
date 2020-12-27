@@ -1,10 +1,28 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import $ from 'jquery';
-import Uploady from "@rpldy/uploady";
-import UploadDropZone from "@rpldy/upload-drop-zone";
 
 export default class HomePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      file: null
+    };
+    this.onChange = this.onChange.bind(this);
+    this.resetFile = this.resetFile.bind(this);
+  }
+  onChange(event) {
+    this.setState({
+      file: URL.createObjectURL(event.target.files[0]),
+    });
+    $('.box-fileupload').hide();
+  }
+
+  resetFile(event) {
+    event.preventDefault();
+    this.setState({ file: null });
+  }
+
   render() {
     return (
       <div className="main">
@@ -29,11 +47,17 @@ export default class HomePage extends Component {
               </h5>
             </div>
             <div className="h-75 order-2 order-md-1 col-md-6">
-              <div className="box-fileupload">
-                <input type="file" id="fileId" className="file-upload-input" name="files" multiple=""/>
-                <label for="fileId" className="file-upload-btn"></label>
-                <p className="box-fileupload__label">Upload a certificate template</p>
+              <div class="box-fileupload">
+                  <input onChange={this.onChange} type="file" id="fileId" class="file-upload-input" name="files" multiple/>
+                  <label for="fileId" class="file-upload-btn"></label>
+                  <p class="box-fileupload__lable">Drop files here to upload</p>
               </div>
+              {this.state.file && (
+                <div style={{ textAlign: "center" }}>
+                  <button className="btn" onClick={this.resetFile}>Remove File</button>
+                </div>
+              )}
+              <img style={{ width: "100%" }} src={this.state.file} />
               <div class="error-wrapper"></div>
               <div class="image-preview"></div>
             </div>
