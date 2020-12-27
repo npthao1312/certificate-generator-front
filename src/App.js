@@ -6,6 +6,7 @@ import 'bootstrap/dist/js/bootstrap.js';
 import './App.css';
 
 import HomePage from './components/hompage.component';
+import InstrPage from './components/instrpage.component';
 
 class App extends Component {
   render(){
@@ -24,7 +25,7 @@ class App extends Component {
                   </Link>
                   </li>
                   <li className="nav-item">
-                  <Link className="nav-link text-white" to={"/"}>
+                  <Link className="nav-link text-white" to={"/instruction"}>
                   Instructions
                   </Link>
                   </li>
@@ -36,6 +37,7 @@ class App extends Component {
           <div className="container-fluid">
             <Switch>
               <Route exact path={["/"]} component={HomePage} />
+              <Route exact path={["/instruction"]} component={InstrPage} />
             </Switch>
           </div>
         </div>

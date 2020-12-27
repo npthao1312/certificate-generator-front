@@ -21,7 +21,9 @@ export default class HomePage extends Component {
                   <input type="file" name="myfile" />
                 </div>
               </div>
-              <h5 className="text-center my-5"> Don't know how to generate form? <a className="link-instructions" href="#">See our instruction</a></h5>
+              <h5 className="text-center my-5"> Don't know how to generate form?
+              <Link className="link-instructions" to={"/instruction"}>See our instruction</Link>
+              </h5>
             </div>
             <div className="h-75 order-2 order-md-1 col-md-6">
               <div className="box-fileupload">
