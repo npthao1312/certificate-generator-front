@@ -8,9 +8,11 @@ class HomePage extends Component {
     super(props);
     this.state = {
       file: null,
-      isOpen: false
+      isOpen: false,
+      inputValue: ''
     };
     this.onChange = this.onChange.bind(this);
+    this.getName = this.getName.bind(this);
     this.resetFile = this.resetFile.bind(this);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -23,6 +25,12 @@ class HomePage extends Component {
     $('.box-fileupload').hide();
   }
 
+  getName(e) {
+      e.preventDefault();
+      var name = this.name;
+      console.log(name);
+  }
+
   canvas () {
     return document.querySelector('#imageCanvas');
   }
@@ -30,23 +38,21 @@ class HomePage extends Component {
   ctx () {
     return this.canvas().getContext("2d");
   }
-  componentDidMount() {
-    this.updateCanvas();
-  }
 
-  updateCanvas(){
-    const canvas = this.canvas()
-    const ctx = this.ctx()
-    ctx.beginPath();
-    ctx.arc(95,50,40,0,2*Math.PI);
-    ctx.stroke();
-  }
   recordMouse(event) {
     const canvas = this.canvas()
     const ctx = this.ctx()
-    ctx.beginPath();
-    ctx.fillRect(event.nativeEvent.offsetX,event.nativeEvent.offsetY,3,3);
-    ctx.stroke();
+    var text_title = this.state.inputValue;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // DrawOverlay(img);
+    ctx.fillStyle = "#000000";
+    ctx.textBaseline = 'middle';
+    ctx.font = "10px 'Montserrat'";;
+    let rect = canvas.getBoundingClientRect();
+    let x = event.clientX - rect.left;
+    let y = event.clientY - rect.top;
+    console.log("Coordinate x: " + x, "Coordinate y: " + y);
+    ctx.fillText(text_title, x, y);
   }
 
   resetFile(event) {
@@ -72,7 +78,7 @@ class HomePage extends Component {
               <h3 className="bold text-center">Enter a name</h3>
               <form className="form pt-3">
                 <div className="input-group">
-                  <input type="text" className="form-control" placeholder="name"/>
+                  <input value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} id="name" type="text" className="form-control" placeholder="name"/>
                 </div>
               </form>
               <div className="divider div-transparent div-dot"></div>
@@ -97,8 +103,6 @@ class HomePage extends Component {
               )}
               <img className="image-preview" src={this.state.file} onClick={this.openModal} />
               <Modal show={this.state.isOpen} onHide={this.closeModal}>
-                  <canvas id="canvasID" width="200" height="100" onMouseMove={this.recordMouse} >
-                  </canvas>
               </Modal>
               <canvas id="imageCanvas" width="200" height="100" onMouseMove={this.recordMouse} >
               </canvas>
@@ -110,6 +114,12 @@ class HomePage extends Component {
         </div>
       </div>
     );
+  }
+
+  updateInputValue(evt) {
+    this.setState({
+      inputValue: evt.target.value
+    });
   }
 }
 
