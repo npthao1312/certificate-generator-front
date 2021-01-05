@@ -12,23 +12,16 @@ class HomePage extends Component {
       inputValue: ''
     };
     this.onChange = this.onChange.bind(this);
-    this.getName = this.getName.bind(this);
     this.resetFile = this.resetFile.bind(this);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    this.recordMouse = this.recordMouse.bind(this);
+    this.handleImage = this.handleImage.bind(this);
   }
   onChange(event) {
     this.setState({
       file: URL.createObjectURL(event.target.files[0]),
     });
     $('.box-fileupload').hide();
-  }
-
-  getName(e) {
-      e.preventDefault();
-      var name = this.name;
-      console.log(name);
   }
 
   canvas () {
@@ -39,7 +32,7 @@ class HomePage extends Component {
     return this.canvas().getContext("2d");
   }
 
-  recordMouse(event) {
+  handleImage(event) {
     const canvas = this.canvas()
     const ctx = this.ctx()
     var text_title = this.state.inputValue;
@@ -52,6 +45,11 @@ class HomePage extends Component {
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
     console.log("Coordinate x: " + x, "Coordinate y: " + y);
+    var img = new Image();
+    img.src = 'https://s-media-cache-ak0.pinimg.com/236x/d7/b3/cf/d7b3cfe04c2dc44400547ea6ef94ba35.jpg'
+    img.onload = function() {
+        ctx.drawImage(img,0,0);
+    }
     ctx.fillText(text_title, x, y);
   }
 
@@ -104,7 +102,7 @@ class HomePage extends Component {
               <img className="image-preview" src={this.state.file} onClick={this.openModal} />
               <Modal show={this.state.isOpen} onHide={this.closeModal}>
               </Modal>
-              <canvas id="imageCanvas" width="200" height="100" onMouseMove={this.recordMouse} >
+              <canvas id="imageCanvas" width="200" height="100" onClick={this.handleImage} >
               </canvas>
             </div>
           </div>
