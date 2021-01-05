@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import $ from 'jquery';
 import { Modal, Button } from "react-bootstrap";
 
-export default class HomePage extends Component {
+class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,8 +15,6 @@ export default class HomePage extends Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.recordMouse = this.recordMouse.bind(this);
-    this.makeBase = this.makeBase.bind(this);
-    this.canvasRef = React.createRef();
   }
   onChange(event) {
     this.setState({
@@ -26,24 +24,23 @@ export default class HomePage extends Component {
   }
 
   canvas () {
-    return document.querySelector("#imageCanvas");
+    return document.querySelector('#imageCanvas');
   }
+
   ctx () {
     return this.canvas().getContext("2d");
   }
   componentDidMount() {
-    const canvas = this.canvas()
-    const ctx = this.ctx()
-    if(this.props.fullscreen === true){
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    ctx.strokeStyle = "#BADA55";
-    ctx.lineJoin = "round";
-    ctx.lineCap = "round";
-    ctx.lineWidth = Number(this.state.minWidth) + 1;
+    this.updateCanvas();
   }
 
+  updateCanvas(){
+    const canvas = this.canvas()
+    const ctx = this.ctx()
+    ctx.beginPath();
+    ctx.arc(95,50,40,0,2*Math.PI);
+    ctx.stroke();
+  }
   recordMouse(event) {
     const canvas = this.canvas()
     const ctx = this.ctx()
@@ -98,11 +95,13 @@ export default class HomePage extends Component {
               {this.state.file && (
                 <span className="image-preview__delete-btn" onClick={this.resetFile}></span>
               )}
-              <img className="image-preview" src={this.state.file} onClick={this.openModal && this.makeBase} />
+              <img className="image-preview" src={this.state.file} onClick={this.openModal} />
               <Modal show={this.state.isOpen} onHide={this.closeModal}>
-                  <canvas id="imageCanvas" width="200" height="100" onMouseMove={this.recordMouse} >
+                  <canvas id="canvasID" width="200" height="100" onMouseMove={this.recordMouse} >
                   </canvas>
               </Modal>
+              <canvas id="imageCanvas" width="200" height="100" onMouseMove={this.recordMouse} >
+              </canvas>
             </div>
           </div>
           <div className="d-flex justify-content-end">
@@ -113,3 +112,5 @@ export default class HomePage extends Component {
     );
   }
 }
+
+export default HomePage;
