@@ -51,6 +51,7 @@ class HomePage extends Component {
     ctx.fillStyle = "#000000";
     ctx.font = "50px 'Montserrat'";;
     let rect = canvas.getBoundingClientRect();
+    // BUG: It will not move exactly to mouse position because modal image can't display correctly image canvas size
     console.log(rect);
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;

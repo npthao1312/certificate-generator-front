@@ -3,6 +3,7 @@
 
 .modal-dialog{
   max-width: 60%;
+  /* width: 100%; */
 }
 .my-bg-primary {
   background-color: #40739e;
