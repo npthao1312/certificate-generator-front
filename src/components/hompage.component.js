@@ -16,6 +16,7 @@ class HomePage extends Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.handleImage = this.handleImage.bind(this);
+    this.drawOverlayImage = this.drawOverlayImage.bind(this);
   }
   onChange(event) {
     this.setState({
@@ -37,20 +38,28 @@ class HomePage extends Component {
     const ctx = this.ctx()
     var text_title = this.state.inputValue;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // DrawOverlay(img);
+    var img = new Image();
+    img.src = 'https://images-na.ssl-images-amazon.com/images/I/51zUYAV6J7L._AC_.jpg'
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    this.drawOverlayImage(img);
     ctx.fillStyle = "#000000";
-    ctx.textBaseline = 'middle';
-    ctx.font = "50px 'Montserrat'";;
+    ctx.font = "20px 'Montserrat'";;
     let rect = canvas.getBoundingClientRect();
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
     console.log("Coordinate x: " + x, "Coordinate y: " + y);
-    var img = new Image();
-    img.src = 'https://dzf8vqv24eqhg.cloudfront.net/userfiles/2086/3660/ckfinder/images/7(4).jpg'
-    img.onload = function() {
-        ctx.drawImage(img,0,0);
-    }
     ctx.fillText(text_title, x, y);
+    console.log(text_title);
+  }
+
+  drawOverlayImage(img){
+    const canvas = this.canvas()
+    const ctx = this.ctx()
+    ctx.drawImage(img, 0, 0);
+    ctx.fillStyle = 'rgba(0, 0, 200, 0)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 
   resetFile(event) {
