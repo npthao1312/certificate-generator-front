@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 // 5000 is the default flask port
 export default axios.create({

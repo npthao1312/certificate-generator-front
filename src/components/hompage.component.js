@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import $ from 'jquery';
 import { Modal, Button } from "react-bootstrap";
+import CertDataService from "../services/cert.service";
 
 class HomePage extends Component {
   constructor(props) {
@@ -9,7 +10,9 @@ class HomePage extends Component {
     this.state = {
       file: null,
       isOpen: false,
-      inputValue: ''
+      inputValue: '',
+      x: null,
+      y: null
     };
     this.onChange = this.onChange.bind(this);
     this.resetFile = this.resetFile.bind(this);
@@ -45,13 +48,14 @@ class HomePage extends Component {
 
     this.drawOverlayImage(img);
     ctx.fillStyle = "#000000";
-    ctx.font = "20px 'Montserrat'";;
+    ctx.font = "50px 'Montserrat'";;
     let rect = canvas.getBoundingClientRect();
     console.log(rect);
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
     console.log("Coordinate x: " + x, "Coordinate y: " + y);
     ctx.fillText(text_title, x, y);
+    this.setState({ x: x, y: y });
     console.log(text_title);
   }
 
@@ -75,6 +79,29 @@ class HomePage extends Component {
 
   closeModal(event) {
     this.setState({ isOpen: false });
+  }
+
+  saveCert() {
+    var data = {
+      path: this.state.file,
+      name: this.state.inputValue,
+      x: this.state.x,
+      y: this.state.y
+    };
+
+    CertDataService.create(data)
+      .then(response => {
+        this.setState({
+          path: response.data.file,
+          name: response.data.inputValue,
+          x: response.data.x,
+          y: response.data.y
+        });
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   }
 
   render() {
@@ -117,7 +144,7 @@ class HomePage extends Component {
             </div>
           </div>
           <div className="d-flex justify-content-end">
-            <button className="btn" type="button">Generate</button>
+            <button className="btn" type="button" onClick={this.saveCert}>Generate</button>
           </div>
         </div>
       </div>

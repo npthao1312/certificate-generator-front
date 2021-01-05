@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&amp;display=swap");
 
 .modal-dialog{
-  width: 100%;
+  max-width: 60%;
 }
 .my-bg-primary {
   background-color: #40739e;
