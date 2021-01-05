@@ -8,7 +8,7 @@
 ## Configure
 Default port 3000
 
-## Web API 
+## Web API
 Here are APIs that we will use Axios to make HTTP requests:
 | Methods | URLs              | Actions                                                       |
 |:-------:|-------------------|---------------------------------------------------------------|
@@ -16,11 +16,11 @@ Here are APIs that we will use Axios to make HTTP requests:
 
 ## Project Structure
 ![Project Structure](https://i.imgur.com/mWCed4n.png)
-– cert.service provides methods to save Certificate and get Certificate using Axios.
-– homagepage.component contain Home page
-– instrpage.component contain Instruction page
-– App.js is the container that we embed all React components.
-– http-common.js initializes Axios with HTTP base Url and headers. We now use flask default 5000.
+- cert.service provides methods to save Certificate and get Certificate using Axios.
+- homagepage.component contain Home page
+- instrpage.component contain Instruction page
+- App.js is the container that we embed all React components.
+- http-common.js initializes Axios with HTTP base Url and headers. We now use flask default 5000.
 
 ## Screenshot Images
 Homepage
@@ -32,5 +32,5 @@ Instruction page
 Input name and and upload certificate template
 https://i.imgur.com/VFPSCOF.png
 
-Edit name position 
+Edit name position
 https://i.imgur.com/dWSW6bT.png
