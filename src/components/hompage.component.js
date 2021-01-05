@@ -40,13 +40,13 @@ class HomePage extends Component {
     // DrawOverlay(img);
     ctx.fillStyle = "#000000";
     ctx.textBaseline = 'middle';
-    ctx.font = "10px 'Montserrat'";;
+    ctx.font = "50px 'Montserrat'";;
     let rect = canvas.getBoundingClientRect();
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
     console.log("Coordinate x: " + x, "Coordinate y: " + y);
     var img = new Image();
-    img.src = 'https://s-media-cache-ak0.pinimg.com/236x/d7/b3/cf/d7b3cfe04c2dc44400547ea6ef94ba35.jpg'
+    img.src = 'https://dzf8vqv24eqhg.cloudfront.net/userfiles/2086/3660/ckfinder/images/7(4).jpg'
     img.onload = function() {
         ctx.drawImage(img,0,0);
     }
@@ -101,9 +101,9 @@ class HomePage extends Component {
               )}
               <img className="image-preview" src={this.state.file} onClick={this.openModal} />
               <Modal show={this.state.isOpen} onHide={this.closeModal}>
-              </Modal>
-              <canvas id="imageCanvas" width="200" height="100" onClick={this.handleImage} >
+              <canvas id="imageCanvas" onClick={this.handleImage} >
               </canvas>
+              </Modal>
             </div>
           </div>
           <div className="d-flex justify-content-end">
