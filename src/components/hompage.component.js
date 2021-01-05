@@ -39,7 +39,7 @@ class HomePage extends Component {
     var text_title = this.state.inputValue;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     var img = new Image();
-    img.src = 'https://images-na.ssl-images-amazon.com/images/I/51zUYAV6J7L._AC_.jpg'
+    img.src = this.state.file;
     canvas.width = img.width;
     canvas.height = img.height;
 
@@ -47,6 +47,7 @@ class HomePage extends Component {
     ctx.fillStyle = "#000000";
     ctx.font = "20px 'Montserrat'";;
     let rect = canvas.getBoundingClientRect();
+    console.log(rect);
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
     console.log("Coordinate x: " + x, "Coordinate y: " + y);
