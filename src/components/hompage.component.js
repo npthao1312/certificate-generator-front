@@ -50,7 +50,7 @@ class HomePage extends Component {
     this.drawOverlayImage(img);
     ctx.fillStyle = "#000000";
     ctx.font = "50px 'Montserrat'";;
-    let rect = event.currentTarget.getBoundingClientRect();
+    let rect = canvas.getBoundingClientRect();
     console.log(rect);
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
@@ -139,6 +139,9 @@ class HomePage extends Component {
               )}
               <img className="image-preview" src={this.state.file} onClick={this.openModal} />
               <Modal show={this.state.isOpen} onHide={this.closeModal}>
+                <Modal.Header closeButton>
+                  <Modal.Title>One more click to display please!</Modal.Title>
+                </Modal.Header>
                 <canvas id="imageCanvas" onClick={this.handleImage} >
                 </canvas>
               </Modal>
