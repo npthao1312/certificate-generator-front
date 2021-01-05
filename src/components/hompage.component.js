@@ -11,6 +11,7 @@ class HomePage extends Component {
       file: null,
       isOpen: false,
       inputValue: '',
+      csvFile: null,
       x: null,
       y: null
     };
@@ -49,7 +50,7 @@ class HomePage extends Component {
     this.drawOverlayImage(img);
     ctx.fillStyle = "#000000";
     ctx.font = "50px 'Montserrat'";;
-    let rect = canvas.getBoundingClientRect();
+    let rect = event.currentTarget.getBoundingClientRect();
     console.log(rect);
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
@@ -69,7 +70,7 @@ class HomePage extends Component {
 
   resetFile(event) {
     event.preventDefault();
-    this.setState({ file: null });
+    this.setState({ file: null, csvFile:null });
   }
 
   openModal(event) {
@@ -84,7 +85,7 @@ class HomePage extends Component {
   saveCert() {
     var data = {
       path: this.state.file,
-      name: this.state.inputValue,
+      name: this.state.csvFile,
       x: this.state.x,
       y: this.state.y
     };
@@ -93,7 +94,7 @@ class HomePage extends Component {
       .then(response => {
         this.setState({
           path: response.data.file,
-          name: response.data.inputValue,
+          name: response.data.csvFile,
           x: response.data.x,
           y: response.data.y
         });
@@ -138,8 +139,8 @@ class HomePage extends Component {
               )}
               <img className="image-preview" src={this.state.file} onClick={this.openModal} />
               <Modal show={this.state.isOpen} onHide={this.closeModal}>
-              <canvas id="imageCanvas" onClick={this.handleImage} >
-              </canvas>
+                <canvas id="imageCanvas" onClick={this.handleImage} >
+                </canvas>
               </Modal>
             </div>
           </div>
