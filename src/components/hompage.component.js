@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import $ from 'jquery';
+import Downloader from './Downloader'
 
 export default class HomePage extends Component {
   constructor(props) {
@@ -23,6 +24,12 @@ export default class HomePage extends Component {
     this.setState({ file: null });
   }
 
+  
+  async handleClick(){
+    const url = 'http://127.0.0.1:5000/create'
+    await Downloader(url);
+  }
+
   render() {
     return (
       <div className="main">
@@ -32,7 +39,7 @@ export default class HomePage extends Component {
               <h3 className="bold text-center">Enter a name</h3>
               <form className="form pt-3">
                 <div className="input-group">
-                  <input type="text" className="form-control" placeholder="name"/>
+                  <input type="text" className="form-control" placeholder="name" />
                 </div>
               </form>
               <div className="divider div-transparent div-dot"></div>
@@ -48,21 +55,26 @@ export default class HomePage extends Component {
             </div>
             <div className="h-75 order-2 order-md-1 col-md-6">
               <div class="box-fileupload">
-                  <input onChange={this.onChange} type="file" id="fileId" class="file-upload-input" name="files" multiple/>
-                  <label for="fileId" class="file-upload-btn"></label>
-                  <p class="box-fileupload__lable">Upload a certificate template</p>
+                <input onChange={this.onChange} type="file" id="fileId" class="file-upload-input" name="files" multiple />
+                <label for="fileId" class="file-upload-btn"></label>
+                <p class="box-fileupload__lable">Upload a certificate template</p>
               </div>
               {this.state.file && (
                 <span className="image-preview__delete-btn" onClick={this.resetFile}></span>
               )}
               <img className="image-preview" src={this.state.file} />
+              
             </div>
+            
           </div>
           <div className="d-flex justify-content-end">
-            <button className="btn" type="button">Generate</button>
+            <button className="btn" onClick={()=> this.handleClick()} type="button">Generate</button>
           </div>
+
         </div>
+
       </div>
+
     );
   }
 }
