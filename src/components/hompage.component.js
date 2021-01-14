@@ -41,15 +41,9 @@ class HomePage extends Component {
     const canvas = this.canvas()
     const ctx = this.ctx()
     var text_title = this.state.inputValue;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    var img = new Image();
-    img.src = this.state.file;
-    canvas.width = img.width;
-    canvas.height = img.height;
-
-    this.drawOverlayImage(img);
+    this.drawOverlayImage();
     ctx.fillStyle = "#000000";
-    ctx.font = "50px 'Montserrat'";;
+    ctx.font = "20px 'Montserrat'";;
     let rect = canvas.getBoundingClientRect();
     // BUG: It will not move exactly to mouse position because modal image can't display correctly image canvas size
     console.log(rect);
@@ -61,9 +55,16 @@ class HomePage extends Component {
     console.log(text_title);
   }
 
-  drawOverlayImage(img){
+  drawOverlayImage(){
     const canvas = this.canvas()
     const ctx = this.ctx()
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var img = new Image();
+    img.src = this.state.file;
+    canvas.width = img.width;
+    canvas.height = img.height;
+
     ctx.drawImage(img, 0, 0);
     ctx.fillStyle = 'rgba(0, 0, 200, 0)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -81,6 +82,12 @@ class HomePage extends Component {
 
   closeModal(event) {
     this.setState({ isOpen: false });
+  }
+
+  getFileName(){
+    var x = document.getElementById('upload-input')
+    x.style.visibility = 'collapse'
+    document.getElementById('fileName').innerHTML = x.value.split('\\').pop()
   }
 
   saveCert() {
@@ -122,7 +129,8 @@ class HomePage extends Component {
               <div className="d-flex justify-content-center">
                 <div class="upload-btn-wrapper">
                   <button className="btn">Upload a CSV file</button>
-                  <input type="file" name="myfile" />
+                  <input id="upload-input" type="file" accept=".csv" name="myfile" onChange={this.getFileName}/>
+                  <span id="fileName" className="ml-2"></span>
                 </div>
               </div>
               <h5 className="text-center my-5"> Don't know how to generate form?
@@ -131,7 +139,7 @@ class HomePage extends Component {
             </div>
             <div className="h-75 order-2 order-md-1 col-md-6">
               <div class="box-fileupload">
-                  <input onChange={this.onChange} type="file" id="fileId" class="file-upload-input" name="files" multiple/>
+                  <input onChange={this.onChange} type="file" accept="image/*" id="fileId" class="file-upload-input" name="files"/>
                   <label for="fileId" class="file-upload-btn"></label>
                   <p class="box-fileupload__lable">Upload a certificate template</p>
               </div>
@@ -140,11 +148,8 @@ class HomePage extends Component {
               )}
               <img className="image-preview" src={this.state.file} onClick={this.openModal} />
               <Modal show={this.state.isOpen} onHide={this.closeModal}>
-                <Modal.Header closeButton>
-                  <Modal.Title>One more click to display please!</Modal.Title>
-                </Modal.Header>
-                <canvas id="imageCanvas" onClick={this.handleImage} >
-                </canvas>
+                  <canvas id="imageCanvas" onMouseOver={this.drawOverlayImage} onClick={this.handleImage} >
+                  </canvas>
               </Modal>
             </div>
           </div>
