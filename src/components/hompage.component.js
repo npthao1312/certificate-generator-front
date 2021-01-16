@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import $ from 'jquery';
-import Downloader from './Downloader'
+import Downloader from './Downloader/Downloader'
 
 export default class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      file: null
+      file: null,
+      openDownload: false
     };
     this.onChange = this.onChange.bind(this);
     this.resetFile = this.resetFile.bind(this);
+
   }
   onChange(event) {
     this.setState({
@@ -24,10 +26,15 @@ export default class HomePage extends Component {
     this.setState({ file: null });
   }
 
-  
-  async handleClick(){
-    const url = 'http://127.0.0.1:5000/create'
-    await Downloader(url);
+
+  // async handleClick(){
+  //   const url = 'http://127.0.0.1:5000/create'
+  //   await Downloader(url);
+  // }
+  handleClick() {
+    this.setState({
+      openDownload: !this.state.openDownload
+    })
   }
 
   render() {
@@ -63,13 +70,21 @@ export default class HomePage extends Component {
                 <span className="image-preview__delete-btn" onClick={this.resetFile}></span>
               )}
               <img className="image-preview" src={this.state.file} />
-              
+
             </div>
-            
+
           </div>
           <div className="d-flex justify-content-end">
-            <button className="btn" onClick={()=> this.handleClick()} type="button">Generate</button>
+            <button className="btn" onClick={() => this.handleClick()} type="button">Generate</button>
           </div>
+          {
+            this.state.openDownload && 
+            <div className="d-flex justify-content-end" style={{ position: "fixed", right: 200, bottom: 30 }}>
+              <Downloader turnOff={()=> this.setState({openDownload: false})}/>
+            </div>
+          }
+
+
 
         </div>
 
