@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import $ from 'jquery';
 import { Modal, Button } from "react-bootstrap";
 import CertDataService from "../services/cert.service";
+import Downloader from './Downloader/Downloader'
 
 class HomePage extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class HomePage extends Component {
       file: null,
       isOpen: false,
       inputValue: '',
+      openDownload: false,
       csvFile: null,
       x: null,
       y: null
@@ -22,6 +24,8 @@ class HomePage extends Component {
     this.handleImage = this.handleImage.bind(this);
     this.drawOverlayImage = this.drawOverlayImage.bind(this);
   }
+
+
   onChange(event) {
     this.setState({
       file: URL.createObjectURL(event.target.files[0]),
@@ -90,6 +94,12 @@ class HomePage extends Component {
     document.getElementById('fileName').innerHTML = x.value.split('\\').pop()
   }
 
+  handleClick() {
+    this.setState({
+      openDownload: !this.state.openDownload
+    })
+  }
+
   saveCert() {
     var data = {
       path: this.state.file,
@@ -154,9 +164,15 @@ class HomePage extends Component {
             </div>
           </div>
           <div className="d-flex justify-content-end">
-            <button className="btn" type="button" onClick={this.saveCert}>Generate</button>
+            <button className="btn" onClick={() => this.handleClick()} type="button">Generate</button>
           </div>
-        </div>
+          {
+            this.state.openDownload &&
+            <div className="d-flex justify-content-end" style={{ position: "fixed", right: 200, bottom: 30 }}>
+              <Downloader turnOff={()=> this.setState({openDownload: false})}/>
+            </div>
+          }
+          </div>
       </div>
     );
   }
