@@ -165,13 +165,11 @@ class HomePage extends Component {
           </div>
           <div className="d-flex justify-content-end">
             <button className="btn" onClick={() => this.handleClick()} type="button">Generate</button>
+            {
+              this.state.openDownload &&
+                <Downloader turnOff={()=> this.setState({openDownload: false})}/>
+            }
           </div>
-          {
-            this.state.openDownload &&
-            <div className="d-flex justify-content-end" style={{ position: "fixed", right: 200, bottom: 30 }}>
-              <Downloader turnOff={()=> this.setState({openDownload: false})}/>
-            </div>
-          }
           </div>
       </div>
     );

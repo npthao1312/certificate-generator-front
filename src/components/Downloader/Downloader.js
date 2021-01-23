@@ -38,7 +38,7 @@ const Downloader = (props) => {
     return (
         <div className={`progress-button ${progress}`}>
             <span className="loading-text">Loading </span>
-            <button className="download-button" onClick={download} >
+            <button className="btn" onClick={download} >
                 <span className="button-text" >{progress === 'finished' ? 'Done' : 'Download'}</span>
             </button>
             <span className="percentage" >{percentage}%</span>
