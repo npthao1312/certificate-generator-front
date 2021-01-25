@@ -163,9 +163,6 @@ class HomePage extends Component {
               </Modal>
             </div>
           </div>
-          <div className="d-flex justify-content-end">
-            <button className="btn" onClick={() => this.handleClick()} type="button">Generate</button>
-          </div>
           {
             this.state.openDownload &&
             <div className="d-flex justify-content-end" style={{ position: "fixed", right: 500, bottom: 100 }}>
