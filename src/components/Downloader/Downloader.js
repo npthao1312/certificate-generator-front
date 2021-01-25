@@ -3,7 +3,7 @@ import axios from 'axios';
 //import fileDownload from 'js-file-download';
 import './download.css';
 
-const Downloader = (props) => {
+const Downloader = ({data,turnOff}) => {
     //set state
     const [percentage, setPercentage] = useState(0);
     const [progress, setProgress] = useState(null);
@@ -13,13 +13,10 @@ const Downloader = (props) => {
         let progress = 0;
 
         setProgress('in-progress');
-
-        //axios to get meta-data
-        axios({
-            url: 'http://127.0.0.1:5000/create',
-            method: 'POST',
-            onDownloadProgress(progressEvent) {
-
+        console.log(data);
+        // axios to get meta-data
+        axios.post('http://localhost:5000/create', data, {
+            onDownloadProgress: function(progressEvent) {
                 progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
 
                 setPercentage(progress);
@@ -28,10 +25,57 @@ const Downloader = (props) => {
             }
         }).then(response => {
             setProgress('finished');
+            
+            const url = window.URL.createObjectURL(
+                new Blob([response.data], {
+                    type: response.headers["content-type"],
+                })
+            )
+
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", 'filename.zip');
+            document.body.appendChild(link);
+            link.click();
+
             setTimeout(() => {
-                props.turnOff();
+                turnOff();
             }, 2000);
         });
+        // axios({
+        //     url: 'https://shecodes-certificate-generator.herokuapp.com/create',
+        //     method: 'POST',
+        //     responseType: 'blob',
+        //     data: data,
+
+        //     onDownloadProgress(progressEvent) {
+
+        //         progress = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+
+        //         setPercentage(progress);
+
+        //         style.setProperty('--progress', `${progress}%`);
+        //     }
+        // }).then(response => {
+        //     setProgress('finished');
+            
+        //     const url = window.URL.createObjectURL(
+        //         new Blob([response.data], {
+        //             type: response.headers["content-type"],
+        //         })
+        //     )
+
+        //     const link = document.createElement("a");
+        //     link.href = url;
+        //     link.setAttribute("download", 'filename.zip');
+        //     document.body.appendChild(link);
+        //     link.click();
+
+        //     setTimeout(() => {
+        //         turnOff();
+        //     }, 2000);
+        // });
+
     };
 
 

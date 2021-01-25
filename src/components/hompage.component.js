@@ -168,7 +168,7 @@ class HomePage extends Component {
           </div>
           {
             this.state.openDownload &&
-            <div className="d-flex justify-content-end" style={{ position: "fixed", right: 200, bottom: 30 }}>
+            <div className="d-flex justify-content-end" style={{ position: "fixed", right: 500, bottom: 100 }}>
               <Downloader turnOff={()=> this.setState({openDownload: false})}/>
             </div>
           }
