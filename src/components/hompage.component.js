@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import $ from 'jquery';
 import { Modal, Button } from "react-bootstrap";
-import CertDataService from "../services/cert.service";
 import Downloader from './Downloader/Downloader'
+import axios from "axios";
+import FileDownload from "js-file-download";
 
 class HomePage extends Component {
   constructor(props) {
@@ -17,7 +18,8 @@ class HomePage extends Component {
       x: null,
       y: null
     };
-    this.onChange = this.onChange.bind(this);
+    this.onTemplateChange = this.onTemplateChange.bind(this);
+    this.onCSVChange = this.onCSVChange.bind(this);
     this.resetFile = this.resetFile.bind(this);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -26,11 +28,20 @@ class HomePage extends Component {
   }
 
 
-  onChange(event) {
+  onTemplateChange(event) {
     this.setState({
       file: URL.createObjectURL(event.target.files[0]),
     });
     $('.box-fileupload').hide();
+  }
+
+  onCSVChange(event) {
+    var x = document.getElementById('upload-input')
+    x.style.visibility = 'collapse'
+    document.getElementById('fileName').innerHTML = x.value.split('\\').pop()
+    this.setState({
+      csvFile: URL.createObjectURL(event.target.files[0]),
+    });
   }
 
   canvas () {
@@ -47,9 +58,8 @@ class HomePage extends Component {
     var text_title = this.state.inputValue;
     this.drawOverlayImage();
     ctx.fillStyle = "#000000";
-    ctx.font = "20px 'Montserrat'";;
+    ctx.font = "24px 'Arial'";;
     let rect = canvas.getBoundingClientRect();
-    // BUG: It will not move exactly to mouse position because modal image can't display correctly image canvas size
     console.log(rect);
     let x = event.clientX - rect.left;
     let y = event.clientY - rect.top;
@@ -76,7 +86,7 @@ class HomePage extends Component {
 
   resetFile(event) {
     event.preventDefault();
-    this.setState({ file: null, csvFile:null });
+    this.setState({ file: null, csvFile: null });
   }
 
   openModal(event) {
@@ -88,40 +98,31 @@ class HomePage extends Component {
     this.setState({ isOpen: false });
   }
 
-  getFileName(){
-    var x = document.getElementById('upload-input')
-    x.style.visibility = 'collapse'
-    document.getElementById('fileName').innerHTML = x.value.split('\\').pop()
-  }
-
   handleClick() {
     this.setState({
       openDownload: !this.state.openDownload
     })
   }
 
-  saveCert() {
-    var data = {
-      path: this.state.file,
-      name: this.state.csvFile,
-      x: this.state.x,
-      y: this.state.y
-    };
-
-    CertDataService.create(data)
-      .then(response => {
-        this.setState({
-          path: response.data.file,
-          name: response.data.csvFile,
-          x: response.data.x,
-          y: response.data.y
-        });
-        console.log(response.data);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  }
+  async handleSubmit() {
+    console.log(this.state);
+    const formData = new FormData();
+    formData.append("csv", this.state.csvFile);
+    formData.append("template", this.state.file);
+    formData.append("text", this.state.inputValue);
+    formData.append("x-coordinate", this.state.x);
+    formData.append("y-coordinate", this.state.y);
+    console.log(formData);
+    const response = await axios.post(
+      "http://localhost:5000/create",
+      formData,
+      {
+        responseType: "blob"
+      }
+    );
+    console.log(response.data);
+    FileDownload(response.data, "certificates.zip");
+}
 
   render() {
     return (
@@ -139,7 +140,7 @@ class HomePage extends Component {
               <div className="d-flex justify-content-center">
                 <div class="upload-btn-wrapper">
                   <button className="btn">Upload a CSV file</button>
-                  <input id="upload-input" type="file" accept=".csv" name="myfile" onChange={this.getFileName}/>
+                  <input id="upload-input" type="file" accept=".csv" name="myfile" onChange={this.onCSVChange}/>
                   <span id="fileName" className="ml-2"></span>
                 </div>
               </div>
@@ -149,7 +150,7 @@ class HomePage extends Component {
             </div>
             <div className="h-75 order-2 order-md-1 col-md-6">
               <div class="box-fileupload">
-                  <input onChange={this.onChange} type="file" accept="image/*" id="fileId" class="file-upload-input" name="files"/>
+                  <input onChange={this.onTemplateChange} type="file" accept="image/*" id="fileId" class="file-upload-input" name="files"/>
                   <label for="fileId" class="file-upload-btn"></label>
                   <p class="box-fileupload__lable">Upload a certificate template</p>
               </div>
@@ -158,17 +159,17 @@ class HomePage extends Component {
               )}
               <img className="image-preview" src={this.state.file} onClick={this.openModal} />
               <Modal show={this.state.isOpen} onHide={this.closeModal}>
-                  <canvas id="imageCanvas" onMouseOver={this.drawOverlayImage} onClick={this.handleImage} >
+                  <canvas id="imageCanvas" onMouseOver  ={this.drawOverlayImage} onClick={this.handleImage} >
                   </canvas>
               </Modal>
             </div>
           </div>
-          {
-            this.state.openDownload &&
-            <div className="d-flex justify-content-end" style={{ position: "fixed", right: 500, bottom: 100 }}>
-              <Downloader turnOff={()=> this.setState({openDownload: false})}/>
-            </div>
-          }
+          <div className="d-flex justify-content-end">
+            {this.state.openDownload  && (
+              <button className="btn" onClick={() => this.handleSubmit()} type="button">Download</button>
+            )}
+            <button className="btn" onClick={() => this.handleClick()} type="button">Generate</button>
+          </div>
           </div>
       </div>
     );
