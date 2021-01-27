@@ -11,8 +11,9 @@ class HomePage extends Component {
     super(props);
     this.state = {
       file: null,
+      template: null,
       isOpen: false,
-      inputValue: '',
+      inputName: '',
       openDownload: false,
       csvFile: null,
       x: null,
@@ -31,6 +32,7 @@ class HomePage extends Component {
   onTemplateChange(event) {
     this.setState({
       file: URL.createObjectURL(event.target.files[0]),
+      template: event.target.files[0]
     });
     $('.box-fileupload').hide();
   }
@@ -40,7 +42,7 @@ class HomePage extends Component {
     x.style.visibility = 'collapse'
     document.getElementById('fileName').innerHTML = x.value.split('\\').pop()
     this.setState({
-      csvFile: URL.createObjectURL(event.target.files[0]),
+      csvFile: event.target.files[0],
     });
   }
 
@@ -55,7 +57,7 @@ class HomePage extends Component {
   handleImage(event) {
     const canvas = this.canvas()
     const ctx = this.ctx()
-    var text_title = this.state.inputValue;
+    var text_title = this.state.inputName;
     this.drawOverlayImage();
     ctx.fillStyle = "#000000";
     ctx.font = "24px 'Arial'";;
@@ -86,7 +88,7 @@ class HomePage extends Component {
 
   resetFile(event) {
     event.preventDefault();
-    this.setState({ file: null, csvFile: null });
+    this.setState({ file: null, csvFile: null, template: null });
   }
 
   openModal(event) {
@@ -108,11 +110,10 @@ class HomePage extends Component {
     console.log(this.state);
     const formData = new FormData();
     formData.append("csv", this.state.csvFile);
-    formData.append("template", this.state.file);
-    formData.append("text", this.state.inputValue);
+    formData.append("template", this.state.template);
+    formData.append("text", this.state.inputName);
     formData.append("x-coordinate", this.state.x);
     formData.append("y-coordinate", this.state.y);
-    console.log(formData);
     const response = await axios.post(
       "http://localhost:5000/create",
       formData,
@@ -120,7 +121,7 @@ class HomePage extends Component {
         responseType: "blob"
       }
     );
-    console.log(response.data);
+    console.log("response " + response.data);
     FileDownload(response.data, "certificates.zip");
 }
 
@@ -133,7 +134,7 @@ class HomePage extends Component {
               <h3 className="bold text-center">Enter a name</h3>
               <form className="form pt-3">
                 <div className="input-group">
-                  <input value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} id="name" type="text" className="form-control" placeholder="name"/>
+                  <input value={this.state.inputName} onChange={evt => this.updateInputValue(evt)} id="name" type="text" className="form-control" placeholder="name"/>
                 </div>
               </form>
               <div className="divider div-transparent div-dot"></div>
@@ -177,7 +178,7 @@ class HomePage extends Component {
 
   updateInputValue(evt) {
     this.setState({
-      inputValue: evt.target.value
+      inputName: evt.target.value
     });
   }
 }
