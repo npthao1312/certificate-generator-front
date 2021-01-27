@@ -111,7 +111,7 @@ class HomePage extends Component {
     const formData = new FormData();
     formData.append("csv", this.state.csvFile);
     formData.append("template", this.state.template);
-    formData.append("text", this.state.inputName);
+    // formData.append("text", this.state.inputName);
     formData.append("x-coordinate", this.state.x);
     formData.append("y-coordinate", this.state.y);
     const response = await axios.post(
