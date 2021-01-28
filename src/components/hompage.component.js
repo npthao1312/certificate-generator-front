@@ -57,10 +57,10 @@ class HomePage extends Component {
   handleImage(event) {
     const canvas = this.canvas()
     const ctx = this.ctx()
-    var text_title = this.state.inputName;
+    var text_title = "Nguyễn Thị An";
     this.drawOverlayImage();
     ctx.fillStyle = "#000000";
-    ctx.font = "24px 'Arial'";;
+    ctx.font = "24pt 'MyArial'";;
     let rect = canvas.getBoundingClientRect();
     console.log(rect);
     let x = event.clientX - rect.left;
@@ -68,7 +68,6 @@ class HomePage extends Component {
     console.log("Coordinate x: " + x, "Coordinate y: " + y);
     ctx.fillText(text_title, x, y);
     this.setState({ x: x, y: y });
-    console.log(text_title);
   }
 
   drawOverlayImage(){
@@ -109,11 +108,19 @@ class HomePage extends Component {
   async handleSubmit() {
     console.log(this.state);
     const formData = new FormData();
-    formData.append("csv", this.state.csvFile);
+
     formData.append("template", this.state.template);
-    // formData.append("text", this.state.inputName);
     formData.append("x-coordinate", this.state.x);
     formData.append("y-coordinate", this.state.y);
+
+    if (this.state.inputName == '' && this.state.csvFile != null){  // User input name but doesn't input csv file
+        formData.append("csv", this.state.csvFile);
+    } else if (this.state.inputName != '' && this.state.csvFile == null){ // User input csv file but doesn't input name
+        formData.append("text", this.state.inputName);
+    } else {
+        alert("Please input a name or a CSV file to generate certificate")
+    }
+
     const response = await axios.post(
       "http://localhost:5000/create",
       formData,
