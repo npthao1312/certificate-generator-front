@@ -12,6 +12,10 @@
 .modal {
   padding-right: 30%;
 }
+.modal-footer{
+  align-items: baseline;
+  border-top: none;
+}
 .modal-content {
   flex-direction: unset;
 }

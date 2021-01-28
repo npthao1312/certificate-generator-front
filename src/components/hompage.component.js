@@ -60,7 +60,7 @@ class HomePage extends Component {
     var text_title = "Nguyễn Thị An";
     this.drawOverlayImage();
     ctx.fillStyle = "#000000";
-    ctx.font = "24pt 'MyArial'";;
+    ctx.font = "24pt 'Arial'";;
     let rect = canvas.getBoundingClientRect();
     console.log(rect);
     let x = event.clientX - rect.left;
@@ -158,7 +158,7 @@ class HomePage extends Component {
             </div>
             <div className="h-75 order-2 order-md-1 col-md-6">
               <div class="box-fileupload">
-                  <input onChange={this.onTemplateChange} type="file" accept="image/*" id="fileId" class="file-upload-input" name="files"/>
+                  <input onChange={this.onTemplateChange} type="file" accept=".png" id="fileId" class="file-upload-input" name="files"/>
                   <label for="fileId" class="file-upload-btn"></label>
                   <p class="box-fileupload__lable">Upload a certificate template</p>
               </div>
@@ -166,9 +166,12 @@ class HomePage extends Component {
                 <span className="image-preview__delete-btn" onClick={this.resetFile}></span>
               )}
               <img className="image-preview" src={this.state.file} onClick={this.openModal} />
-              <Modal show={this.state.isOpen} onHide={this.closeModal}>
-                  <canvas id="imageCanvas" onMouseOver  ={this.drawOverlayImage} onClick={this.handleImage} >
-                  </canvas>
+              <Modal centered show={this.state.isOpen} onHide={this.closeModal}>
+                <canvas id="imageCanvas" onMouseOver={this.drawOverlayImage} onClick={this.handleImage}>
+                </canvas>
+                <Modal.Footer>
+                  <button className="btn" onClick={this.closeModal}>Done</button>
+                </Modal.Footer>
               </Modal>
             </div>
           </div>
