@@ -117,8 +117,10 @@ class HomePage extends Component {
         formData.append("csv", this.state.csvFile);
     } else if (this.state.inputName != '' && this.state.csvFile == null){ // User input csv file but doesn't input name
         formData.append("text", this.state.inputName);
+    } else if (this.state.inputName != '' && this.state.csvFile == null){ // User input both csv file & input name
+        alert("Please input a name OR a CSV file to generate certificate NOT BOTH")
     } else {
-        alert("Please input a name or a CSV file to generate certificate")
+        alert("Please input a name OR a CSV file to generate certificate")
     }
 
     const response = await axios.post(
