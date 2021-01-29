@@ -12,6 +12,7 @@ class HomePage extends Component {
     this.state = {
       file: null,
       template: null,
+      canvasImg: null,
       isOpen: false,
       inputName: '',
       openDownload: false,
@@ -77,6 +78,8 @@ class HomePage extends Component {
     console.log("Coordinate x: " + x, "Coordinate y: " + y);
     ctx.fillText(text_title, x, y);
     this.setState({ x: x, y: y });
+    var img = canvas.toDataURL("image/png");
+    this.setState({ canvasImg: img });
   }
 
   drawOverlayImage(){
@@ -101,10 +104,12 @@ class HomePage extends Component {
 
   openModal(event) {
     event.preventDefault();
+    $('#blank-preview-image').hide();
     this.setState({ isOpen: true });
   }
 
   closeModal(event) {
+    $('#blank-preview-image').hide();
     this.setState({ isOpen: false });
   }
 
@@ -176,7 +181,8 @@ class HomePage extends Component {
               {this.state.file && (
                 <span className="image-preview__delete-btn" onClick={this.resetFile}></span>
               )}
-              <img className="image-preview" src={this.state.file} onClick={this.openModal} />
+              <img id="blank-preview-image" className="image-preview" src={this.state.file} onClick={this.openModal} />
+              <img className="image-preview" src={this.state.canvasImg} />
               <Modal centered show={this.state.isOpen} onHide={this.closeModal}>
                 <canvas id="imageCanvas" onMouseOver={this.drawOverlayImage} onClick={this.handleImage}>
                 </canvas>
