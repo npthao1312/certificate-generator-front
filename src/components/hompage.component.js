@@ -16,6 +16,8 @@ class HomePage extends Component {
       inputName: '',
       openDownload: false,
       csvFile: null,
+      disableCSV: false,
+      disableName: false,
       x: null,
       y: null
     };
@@ -27,7 +29,6 @@ class HomePage extends Component {
     this.handleImage = this.handleImage.bind(this);
     this.drawOverlayImage = this.drawOverlayImage.bind(this);
   }
-
 
   onTemplateChange(event) {
     this.setState({
@@ -43,7 +44,15 @@ class HomePage extends Component {
     document.getElementById('fileName').innerHTML = x.value.split('\\').pop()
     this.setState({
       csvFile: event.target.files[0],
+      disableName: !this.state.disableName
     });
+  }
+
+  onChangeInputValue(evt) {
+      this.setState({
+        inputName: evt.target.value,
+        disableCSV: !this.state.disableCSV
+      });
   }
 
   canvas () {
@@ -117,14 +126,14 @@ class HomePage extends Component {
         formData.append("csv", this.state.csvFile);
     } else if (this.state.inputName != '' && this.state.csvFile == null){ // User input csv file but doesn't input name
         formData.append("text", this.state.inputName);
-    } else if (this.state.inputName != '' && this.state.csvFile == null){ // User input both csv file & input name
+    } else if (this.state.inputName != '' && this.state.csvFile != null){ // User input both csv file & input name
         alert("Please input a name OR a CSV file to generate certificate NOT BOTH")
     } else {
         alert("Please input a name OR a CSV file to generate certificate")
     }
 
     const response = await axios.post(
-      "http://localhost:5000/create",
+      "https://shecodes-certificate-generator.herokuapp.com/create",
       formData,
       {
         responseType: "blob"
@@ -143,14 +152,14 @@ class HomePage extends Component {
               <h3 className="bold text-center">Enter a name</h3>
               <form className="form pt-3">
                 <div className="input-group">
-                  <input value={this.state.inputName} onChange={evt => this.updateInputValue(evt)} id="name" type="text" className="form-control" placeholder="name"/>
+                  <input value={this.state.inputName} onChange={evt => this.onChangeInputValue(evt)} id="name" type="text" className="form-control" placeholder="name" disabled = {(this.state.disableName)? "disabled" : ""}/>
                 </div>
               </form>
               <div className="divider div-transparent div-dot"></div>
               <div className="d-flex justify-content-center">
                 <div class="upload-btn-wrapper">
-                  <button className="btn">Upload a CSV file</button>
-                  <input id="upload-input" type="file" accept=".csv" name="myfile" onChange={this.onCSVChange}/>
+                  <button className="btn" disabled = {(this.state.disableCSV)? "disabled" : ""}>Upload a CSV file</button>
+                  <input id="upload-input" type="file" accept=".csv" name="myfile" onChange={this.onCSVChange} disabled = {(this.state.disableCSV)? "disabled" : ""}/>
                   <span id="fileName" className="ml-2"></span>
                 </div>
               </div>
@@ -186,12 +195,6 @@ class HomePage extends Component {
           </div>
       </div>
     );
-  }
-
-  updateInputValue(evt) {
-    this.setState({
-      inputName: evt.target.value
-    });
   }
 }
 

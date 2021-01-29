@@ -78,6 +78,12 @@
   opacity: 0;
 }
 
+.upload-btn-wrapper button:disabled, button[disabled] .btn{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
 .btn{
   font: normal 20px/1 Oswald, sans-serif;
   color: #ffffff;
