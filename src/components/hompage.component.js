@@ -182,7 +182,7 @@ class HomePage extends Component {
                 <span className="image-preview__delete-btn" onClick={this.resetFile}></span>
               )}
               <img id="blank-preview-image" className="image-preview" src={this.state.file} onClick={this.openModal} />
-              <img className="image-preview" src={this.state.canvasImg} />
+              <img className="image-preview" src={this.state.canvasImg} onClick={this.openModal}/>
               <Modal centered show={this.state.isOpen} onHide={this.closeModal}>
                 <canvas id="imageCanvas" onMouseOver={this.drawOverlayImage} onClick={this.handleImage}>
                 </canvas>
