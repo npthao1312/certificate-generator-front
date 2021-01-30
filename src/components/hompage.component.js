@@ -138,7 +138,7 @@ class HomePage extends Component {
     }
 
     const response = await axios.post(
-      "https://shecodes-certificate-generator.herokuapp.com/create",
+      "http://206.189.155.4:5000/create",
       formData,
       {
         responseType: "blob"
